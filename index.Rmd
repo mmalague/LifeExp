@@ -9,6 +9,54 @@ output:
 
 
 
-## Project thoughts
+```{r}
+library(tidyverse)
+```
 
-I am interested in exploring data related to...
+## Research Question/Thoughts!!!
+
+Does an area's walkability influence the life expectancy of its residents? 
+In this study, I plan to examine the correlation between walkability and life expectancy, across either counties or states.
+I hypothesize that communities with higher walkability scores also enjoy longer lives. 
+The explanatory variable of interest is statistics on walkability, as measured by the EPA. My outcome variable is the life expectancy in the same area, as measured by the US Dept. of Health and Human Services.
+If I observe that higher ratings of walkability align with longer life expectancies, this would provide support for my hypothesis. If, conversely, I observe no correlation between walkability and life expectancy, this would provide evidence against my hypothesis. 
+I also hope to incorporate various demographic measures in my study, in an attempt to attribute life expectancy to any variable that offers a strong correlation.  
+
+
+```{r}
+new_life <- read_csv("2022malefemale.CSV")
+new_life
+```
+
+
+
+
+
+```{r}
+new_life |>
+  slice_max(val, n = 20)
+```
+
+```{r}
+oldest20 <- new_life |>
+filter(val >= 91.17)
+
+ggplot(data = oldest20, mapping = aes(x = race_name, y = val)) +
+  geom_point(color = "purple") +
+  labs(x = "Race", y = "Average value of life expectancy")
+```
+
+##https://ghdx.healthdata.org/record/ihme-data/united-states-life-expectancy-by-county-race-ethnicity-2000-2019
+
+##library(dplyr) walk <- EPA_SmartLocationDatabase_V3_Jan_2021_Final |> filter(COUNTYFP == "9569")
+
+## high_low <- real_life_exp |> filter(Life_Expectancy <= 59.5 | Life_Expectancy >= 93.6) high_low
+
+
+
+
+
+
+
+
+
