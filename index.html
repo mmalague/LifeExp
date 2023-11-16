@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["2022malefemale.CSV","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["2022malefemale.CSV","Health_Insurance_Coverage_-_Counties_2015-2019.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1598,7 +1598,33 @@ I also hope to incorporate various demographic measures in my study, in an attem
 <p>##<a href="https://ghdx.healthdata.org/record/ihme-data/united-states-life-expectancy-by-county-race-ethnicity-2000-2019" class="uri">https://ghdx.healthdata.org/record/ihme-data/united-states-life-expectancy-by-county-race-ethnicity-2000-2019</a></p>
 <p>##library(dplyr) walk &lt;- EPA_SmartLocationDatabase_V3_Jan_2021_Final |&gt; filter(COUNTYFP == “9569”)</p>
 <h2 id="high_low---real_life_exp-filterlife_expectancy-59.5-life_expectancy-93.6-high_low">high_low &lt;- real_life_exp |&gt; filter(Life_Expectancy &lt;= 59.5 | Life_Expectancy &gt;= 93.6) high_low</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>coverage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"Health_Insurance_Coverage_-_Counties_2015-2019.csv"</span><span class='op'>)</span></span>
+<span><span class='va'>coverage</span></span></code></pre>
+</div>
+<pre><code># A tibble: 3,220 × 93
+   OBJECTID STATEFP COUNTYFP COUNTYNS AFFGEOID       GEOID NAME  LSAD 
+      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+ 1        1 01      001      00161526 0500000US01001 01001 Auta… 06   
+ 2        2 01      003      00161527 0500000US01003 01003 Bald… 06   
+ 3        3 01      005      00161528 0500000US01005 01005 Barb… 06   
+ 4        4 01      007      00161529 0500000US01007 01007 Bibb  06   
+ 5        5 01      009      00161530 0500000US01009 01009 Blou… 06   
+ 6        6 01      011      00161531 0500000US01011 01011 Bull… 06   
+ 7        7 01      013      00161532 0500000US01013 01013 Butl… 06   
+ 8        8 01      015      00161533 0500000US01015 01015 Calh… 06   
+ 9        9 01      017      00161534 0500000US01017 01017 Cham… 06   
+10       10 01      019      00161535 0500000US01019 01019 Cher… 06   
+# ℹ 3,210 more rows
+# ℹ 85 more variables: ALAND &lt;dbl&gt;, AWATER &lt;dbl&gt;,
+#   GEO_PARENT_NAME &lt;chr&gt;, POP_DENSITY &lt;dbl&gt;, B27010_004E &lt;dbl&gt;,
+#   B27010_004M &lt;dbl&gt;, B27010_020E &lt;dbl&gt;, B27010_020M &lt;dbl&gt;,
+#   B27010_036E &lt;dbl&gt;, B27010_036M &lt;dbl&gt;, B27010_053E &lt;dbl&gt;,
+#   B27010_053M &lt;dbl&gt;, B27010_005E &lt;dbl&gt;, B27010_005M &lt;dbl&gt;,
+#   B27010_021E &lt;dbl&gt;, B27010_021M &lt;dbl&gt;, B27010_037E &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

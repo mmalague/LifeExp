@@ -23,40 +23,112 @@ If I observe that higher ratings of walkability align with longer life expectanc
 I also hope to incorporate various demographic measures in my study, in an attempt to attribute life expectancy to any variable that offers a strong correlation.  
 
 
+
+
 ```{r}
-new_life <- read_csv("2022malefemale.CSV")
-new_life
+coverage <- read_csv("Health_Insurance_Coverage_-_Counties_2015-2019.csv") 
+
+
+ 
+ 
+ good_names <- coverage |>
+   rename("Employer Insurance only - Pop 35-64" = "B27010_036E",
+          "Employer Insurance only - Pop 19-34" = "B27010_020E",
+          "Employer Insurance only - Pop 65+" = "B27010_053E",
+          "Medicare only - Pop 19-34" = "B27010_022E",
+          "Medicare only - Pop 35-64" = "B27010_038E",
+          "Medicare only - Pop 65+" = "B27010_055E",
+          "Medicaid only - Pop 19-34" = "B27010_023E",
+          "Medicaid only - Pop 35-64" = "B27010_039E",
+          "Medicaid only - Pop 65+" = "MEDICAID65_CALC",
+          "Population with no Health Insurance Ages - 19-34" = "B27010_033E",
+          "Population with no Health Insurance Ages - 35-64" = "B27010_050E",
+          "Population with no Health Insurance Ages - Age 65+" = "B27010_066E",
+          "Percent of Population with No Health Insurance Coverage" = "DP03_0099PE")
+  
+```
+
+```{r}
+
+good_names
+
+good_names_only <- good_names |>
+  select("STATEFP", "Employer Insurance only - Pop 35-64", "Employer Insurance only - Pop 19-34", "Employer Insurance only - Pop 65+", "Medicare only - Pop 19-34", "Medicare only - Pop 35-64", "Medicare only - Pop 65+",  "Medicaid only - Pop 19-34",  "Medicaid only - Pop 35-64", "Medicaid only - Pop 65+", "Population with no Health Insurance Ages - 19-34", "Population with no Health Insurance Ages - 35-64", "Population with no Health Insurance Ages - Age 65+", "Percent of Population with No Health Insurance Coverage", "COUNTYFP", "COUNTYNS", "AFFGEOID", "GEOID", "NAME", "LSAD", "ALAND", "AWATER", "GEO_PARENT_NAME", "POP_DENSITY")
+
+new_england <- c(23, 09, 25, 33, 44, 50)
+
+me_LI <- good_names_only  |>
+  filter(STATEFP %in% new_england)
+
+me_LI
+```
+
+```{r}
+BESTLE <- read_csv("U.S._Life_Expectancy_at_Birth_by_State_and_Census_Tract_-_2010-2015.csv")
+
+
+NE_names <- c("Maine", "New Hampshire", "Connecticut", "Vermont", "Massachusetts", "Rhode Island")
+
+yay <- BESTLE |>
+  filter(State %in% NE_names)
+
+yay
+```
+
+
+
+```{r}
+library(dplyr)
+me_LE <- yay |>
+  drop_na(`Life Expectancy`) |>
+  filter(State == NE_names) |>
+  group_by(County) |> 
+  summarise(mean_LE = mean(`Life Expectancy`))
+
+me_LE
+```
+
+```{r}
+me_LE[c('County', 'State')] <- str_split_fixed(me_LE$County, ' ', 2)
+
+me_LE
 ```
 
 
 
 
-
 ```{r}
-new_life |>
-  slice_max(val, n = 20)
+perfect <- me_LI |>
+  inner_join(me_LE, by = c("NAME" = "County")) |>
+  select(-c("LSAD", "State", "AWATER", "ALAND", "GEOID", "AFFGEOID"))
+perfect
+
 ```
 
 ```{r}
-oldest20 <- new_life |>
-filter(val >= 91.17)
+PERFECT <- perfect |>
+  select(c("NAME", "STATEFP", "POP_DENSITY", "mean_LE",
+               "Percent of Population with No Health Insurance Coverage", "Population with no Health Insurance Ages - Age 65+", "Population with no Health Insurance Ages - 35-64", "Population with no Health Insurance Ages - 19-34", "Medicaid only - Pop 35-64", "Medicaid only - Pop 19-34", "Medicare only - Pop 65+", "Medicare only - Pop 35-64", "Medicare only - Pop 19-34", "Employer Insurance only - Pop 65+", "Employer Insurance only - Pop 35-64", "Employer Insurance only - Pop 19-34"))
 
-ggplot(data = oldest20, mapping = aes(x = race_name, y = val)) +
-  geom_point(color = "purple") +
-  labs(x = "Race", y = "Average value of life expectancy")
+
+PERFECT
 ```
 
-##https://ghdx.healthdata.org/record/ihme-data/united-states-life-expectancy-by-county-race-ethnicity-2000-2019
-
-##library(dplyr) walk <- EPA_SmartLocationDatabase_V3_Jan_2021_Final |> filter(COUNTYFP == "9569")
-
-## high_low <- real_life_exp |> filter(Life_Expectancy <= 59.5 | Life_Expectancy >= 93.6) high_low
+## add horizontal and vertical line of national average, make it regional as opposed to just Maine, maybe facet wrap two different regions
 
 
+```{r}
+PERFECT |>
+  ggplot(aes(x = `Percent of Population with No Health Insurance Coverage`, y = mean_LE, color = STATEFP,
+                     fill = STATEFP)) +
+  geom_point() + geom_smooth(method = "lm", se = FALSE) + 
+  geom_hline(aes(yintercept = mean(mean_LE)), color = "blue") + 
+  geom_vline(aes(xintercept = mean("Percent of Population with No Health Insurance Coverage"), color="indianred"))
+    
+  
+```
 
 
+## https://disasters.census.gov/datasets/USCensus::health-insurance-coverage-counties-2015-2019/about
 
-
-
-
-
+##https://www.cdc.gov/nchs/data-visualization/life-expectancy/index.html 
