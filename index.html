@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["2022malefemale.CSV","Health_Insurance_Coverage_-_Counties_2015-2019.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["Health_Insurance_Coverage_-_Counties_2015-2019.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-9-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","U.S._Life_Expectancy_at_Birth_by_State_and_Census_Tract_-_2010-2015.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1531,77 +1531,30 @@ If I observe that higher ratings of walkability align with longer life expectanc
 I also hope to incorporate various demographic measures in my study, in an attempt to attribute life expectancy to any variable that offers a strong correlation.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>new_life</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"2022malefemale.CSV"</span><span class='op'>)</span></span>
-<span><span class='va'>new_life</span></span></code></pre>
-</div>
-<pre><code># A tibble: 365,940 × 17
-   measure_id measure_name    location_id location_name   fips race_id
-        &lt;dbl&gt; &lt;chr&gt;                 &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;   &lt;dbl&gt;
- 1         26 Life expectancy         102 United States…    NA       1
- 2         26 Life expectancy         102 United States…    NA       2
- 3         26 Life expectancy         102 United States…    NA       4
- 4         26 Life expectancy         102 United States…    NA       5
- 5         26 Life expectancy         102 United States…    NA       6
- 6         26 Life expectancy         102 United States…    NA       7
- 7         26 Life expectancy         102 United States…    NA       1
- 8         26 Life expectancy         102 United States…    NA       2
- 9         26 Life expectancy         102 United States…    NA       4
-10         26 Life expectancy         102 United States…    NA       5
-# ℹ 365,930 more rows
-# ℹ 11 more variables: race_name &lt;chr&gt;, sex_id &lt;dbl&gt;, sex_name &lt;chr&gt;,
-#   age_group_id &lt;dbl&gt;, age_name &lt;chr&gt;, year &lt;dbl&gt;, metric_id &lt;dbl&gt;,
-#   metric_name &lt;chr&gt;, val &lt;dbl&gt;, upper &lt;dbl&gt;, lower &lt;dbl&gt;</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>new_life</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_max</a></span><span class='op'>(</span><span class='va'>val</span>, n <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span></span></code></pre>
-</div>
-<pre><code># A tibble: 20 × 17
-   measure_id measure_name    location_id location_name   fips race_id
-        &lt;dbl&gt; &lt;chr&gt;                 &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;   &lt;dbl&gt;
- 1         26 Life expectancy       94087 Aleutian Isla…  2010       2
- 2         26 Life expectancy       94087 Aleutians Eas…  2013       2
- 3         26 Life expectancy       94087 Aleutians Wes…  2016       2
- 4         26 Life expectancy       94087 Aleutian Isla…  2010       2
- 5         26 Life expectancy       94087 Aleutians Eas…  2013       2
- 6         26 Life expectancy       94087 Aleutians Wes…  2016       2
- 7         26 Life expectancy        2428 Queens County… 36081       6
- 8         26 Life expectancy       94087 Aleutian Isla…  2010       7
- 9         26 Life expectancy       94087 Aleutians Eas…  2013       7
-10         26 Life expectancy       94087 Aleutians Wes…  2016       7
-11         26 Life expectancy         576 Madison Count…  1089       6
-12         26 Life expectancy        2428 Queens County… 36081       6
-13         26 Life expectancy         580 Lawrence Coun…  1079       6
-14         26 Life expectancy       94087 Aleutian Isla…  2010       7
-15         26 Life expectancy       94087 Aleutians Eas…  2013       7
-16         26 Life expectancy       94087 Aleutians Wes…  2016       7
-17         26 Life expectancy        3569 Monongalia Co… 54061       2
-18         26 Life expectancy        2687 Athens County… 39009       2
-19         26 Life expectancy        2684 Warren County… 39165       2
-20         26 Life expectancy         576 Madison Count…  1089       6
-# ℹ 11 more variables: race_name &lt;chr&gt;, sex_id &lt;dbl&gt;, sex_name &lt;chr&gt;,
-#   age_group_id &lt;dbl&gt;, age_name &lt;chr&gt;, year &lt;dbl&gt;, metric_id &lt;dbl&gt;,
-#   metric_name &lt;chr&gt;, val &lt;dbl&gt;, upper &lt;dbl&gt;, lower &lt;dbl&gt;</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>oldest20</span> <span class='op'>&lt;-</span> <span class='va'>new_life</span> <span class='op'>|&gt;</span></span>
-<span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>val</span> <span class='op'>&gt;=</span> <span class='fl'>91.17</span><span class='op'>)</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>coverage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"Health_Insurance_Coverage_-_Counties_2015-2019.csv"</span><span class='op'>)</span> </span>
 <span></span>
-<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>oldest20</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>race_name</span>, y <span class='op'>=</span> <span class='va'>val</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"purple"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Race"</span>, y <span class='op'>=</span> <span class='st'>"Average value of life expectancy"</span><span class='op'>)</span></span></code></pre>
+<span></span>
+<span> </span>
+<span> </span>
+<span> <span class='va'>good_names</span> <span class='op'>&lt;-</span> <span class='va'>coverage</span> <span class='op'>|&gt;</span></span>
+<span>   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span><span class='st'>"Employer Insurance only - Pop 35-64"</span> <span class='op'>=</span> <span class='st'>"B27010_036E"</span>,</span>
+<span>          <span class='st'>"Employer Insurance only - Pop 19-34"</span> <span class='op'>=</span> <span class='st'>"B27010_020E"</span>,</span>
+<span>          <span class='st'>"Employer Insurance only - Pop 65+"</span> <span class='op'>=</span> <span class='st'>"B27010_053E"</span>,</span>
+<span>          <span class='st'>"Medicare only - Pop 19-34"</span> <span class='op'>=</span> <span class='st'>"B27010_022E"</span>,</span>
+<span>          <span class='st'>"Medicare only - Pop 35-64"</span> <span class='op'>=</span> <span class='st'>"B27010_038E"</span>,</span>
+<span>          <span class='st'>"Medicare only - Pop 65+"</span> <span class='op'>=</span> <span class='st'>"B27010_055E"</span>,</span>
+<span>          <span class='st'>"Medicaid only - Pop 19-34"</span> <span class='op'>=</span> <span class='st'>"B27010_023E"</span>,</span>
+<span>          <span class='st'>"Medicaid only - Pop 35-64"</span> <span class='op'>=</span> <span class='st'>"B27010_039E"</span>,</span>
+<span>          <span class='st'>"Medicaid only - Pop 65+"</span> <span class='op'>=</span> <span class='st'>"MEDICAID65_CALC"</span>,</span>
+<span>          <span class='st'>"Population with no Health Insurance Ages - 19-34"</span> <span class='op'>=</span> <span class='st'>"B27010_033E"</span>,</span>
+<span>          <span class='st'>"Population with no Health Insurance Ages - 35-64"</span> <span class='op'>=</span> <span class='st'>"B27010_050E"</span>,</span>
+<span>          <span class='st'>"Population with no Health Insurance Ages - Age 65+"</span> <span class='op'>=</span> <span class='st'>"B27010_066E"</span>,</span>
+<span>          <span class='st'>"Percent of Population with No Health Insurance Coverage"</span> <span class='op'>=</span> <span class='st'>"DP03_0099PE"</span><span class='op'>)</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
-<p>##<a href="https://ghdx.healthdata.org/record/ihme-data/united-states-life-expectancy-by-county-race-ethnicity-2000-2019" class="uri">https://ghdx.healthdata.org/record/ihme-data/united-states-life-expectancy-by-county-race-ethnicity-2000-2019</a></p>
-<p>##library(dplyr) walk &lt;- EPA_SmartLocationDatabase_V3_Jan_2021_Final |&gt; filter(COUNTYFP == “9569”)</p>
-<h2 id="high_low---real_life_exp-filterlife_expectancy-59.5-life_expectancy-93.6-high_low">high_low &lt;- real_life_exp |&gt; filter(Life_Expectancy &lt;= 59.5 | Life_Expectancy &gt;= 93.6) high_low</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>coverage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"Health_Insurance_Coverage_-_Counties_2015-2019.csv"</span><span class='op'>)</span></span>
-<span><span class='va'>coverage</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>good_names</span></span></code></pre>
 </div>
 <pre><code># A tibble: 3,220 × 93
    OBJECTID STATEFP COUNTYFP COUNTYNS AFFGEOID       GEOID NAME  LSAD 
@@ -1619,12 +1572,191 @@ I also hope to incorporate various demographic measures in my study, in an attem
 # ℹ 3,210 more rows
 # ℹ 85 more variables: ALAND &lt;dbl&gt;, AWATER &lt;dbl&gt;,
 #   GEO_PARENT_NAME &lt;chr&gt;, POP_DENSITY &lt;dbl&gt;, B27010_004E &lt;dbl&gt;,
-#   B27010_004M &lt;dbl&gt;, B27010_020E &lt;dbl&gt;, B27010_020M &lt;dbl&gt;,
-#   B27010_036E &lt;dbl&gt;, B27010_036M &lt;dbl&gt;, B27010_053E &lt;dbl&gt;,
-#   B27010_053M &lt;dbl&gt;, B27010_005E &lt;dbl&gt;, B27010_005M &lt;dbl&gt;,
-#   B27010_021E &lt;dbl&gt;, B27010_021M &lt;dbl&gt;, B27010_037E &lt;dbl&gt;, …</code></pre>
+#   B27010_004M &lt;dbl&gt;, `Employer Insurance only - Pop 19-34` &lt;dbl&gt;,
+#   B27010_020M &lt;dbl&gt;, `Employer Insurance only - Pop 35-64` &lt;dbl&gt;,
+#   B27010_036M &lt;dbl&gt;, `Employer Insurance only - Pop 65+` &lt;dbl&gt;,
+#   B27010_053M &lt;dbl&gt;, B27010_005E &lt;dbl&gt;, B27010_005M &lt;dbl&gt;, …</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>good_names_only</span> <span class='op'>&lt;-</span> <span class='va'>good_names</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='st'>"STATEFP"</span>, <span class='st'>"Employer Insurance only - Pop 35-64"</span>, <span class='st'>"Employer Insurance only - Pop 19-34"</span>, <span class='st'>"Employer Insurance only - Pop 65+"</span>, <span class='st'>"Medicare only - Pop 19-34"</span>, <span class='st'>"Medicare only - Pop 35-64"</span>, <span class='st'>"Medicare only - Pop 65+"</span>,  <span class='st'>"Medicaid only - Pop 19-34"</span>,  <span class='st'>"Medicaid only - Pop 35-64"</span>, <span class='st'>"Medicaid only - Pop 65+"</span>, <span class='st'>"Population with no Health Insurance Ages - 19-34"</span>, <span class='st'>"Population with no Health Insurance Ages - 35-64"</span>, <span class='st'>"Population with no Health Insurance Ages - Age 65+"</span>, <span class='st'>"Percent of Population with No Health Insurance Coverage"</span>, <span class='st'>"COUNTYFP"</span>, <span class='st'>"COUNTYNS"</span>, <span class='st'>"AFFGEOID"</span>, <span class='st'>"GEOID"</span>, <span class='st'>"NAME"</span>, <span class='st'>"LSAD"</span>, <span class='st'>"ALAND"</span>, <span class='st'>"AWATER"</span>, <span class='st'>"GEO_PARENT_NAME"</span>, <span class='st'>"POP_DENSITY"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>new_england</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>23</span>, <span class='fl'>09</span>, <span class='fl'>25</span>, <span class='fl'>33</span>, <span class='fl'>44</span>, <span class='fl'>50</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>me_LI</span> <span class='op'>&lt;-</span> <span class='va'>good_names_only</span>  <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>STATEFP</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>new_england</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>me_LI</span></span></code></pre>
 </div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<pre><code># A tibble: 59 × 24
+   STATEFP Employer Insurance only - Pop 35-6…¹ Employer Insurance o…²
+   &lt;chr&gt;                                  &lt;dbl&gt;                  &lt;dbl&gt;
+ 1 23                                     27039                  11858
+ 2 23                                     14033                   4752
+ 3 23                                     80700                  39966
+ 4 23                                      6476                   2973
+ 5 23                                     11768                   4383
+ 6 23                                     29167                  12761
+ 7 23                                      8218                   3037
+ 8 23                                      7217                   2194
+ 9 23                                     12039                   4156
+10 23                                     32148                  17424
+# ℹ 49 more rows
+# ℹ abbreviated names: ¹​`Employer Insurance only - Pop 35-64`,
+#   ²​`Employer Insurance only - Pop 19-34`
+# ℹ 21 more variables: `Employer Insurance only - Pop 65+` &lt;dbl&gt;,
+#   `Medicare only - Pop 19-34` &lt;dbl&gt;,
+#   `Medicare only - Pop 35-64` &lt;dbl&gt;,
+#   `Medicare only - Pop 65+` &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>BESTLE</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"U.S._Life_Expectancy_at_Birth_by_State_and_Census_Tract_-_2010-2015.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span></span>
+<span><span class='va'>NE_names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Maine"</span>, <span class='st'>"New Hampshire"</span>, <span class='st'>"Connecticut"</span>, <span class='st'>"Vermont"</span>, <span class='st'>"Massachusetts"</span>, <span class='st'>"Rhode Island"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>yay</span> <span class='op'>&lt;-</span> <span class='va'>BESTLE</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>State</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>NE_names</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>yay</span></span></code></pre>
+</div>
+<pre><code># A tibble: 3,399 × 6
+   State       County          `Census Tract Number` `Life Expectancy`
+   &lt;chr&gt;       &lt;chr&gt;           &lt;chr&gt;                             &lt;dbl&gt;
+ 1 Connecticut (blank)         &lt;NA&gt;                               80.9
+ 2 Connecticut Fairfield Coun… 0101.01                            81  
+ 3 Connecticut Fairfield Coun… 0101.02                            85.5
+ 4 Connecticut Fairfield Coun… 0102.01                            82.1
+ 5 Connecticut Fairfield Coun… 0102.02                            84.1
+ 6 Connecticut Fairfield Coun… 0103.00                            85.3
+ 7 Connecticut Fairfield Coun… 0104.00                            82.4
+ 8 Connecticut Fairfield Coun… 0105.00                            83  
+ 9 Connecticut Fairfield Coun… 0106.00                            82.6
+10 Connecticut Fairfield Coun… 0107.00                            85.4
+# ℹ 3,389 more rows
+# ℹ 2 more variables: `Life Expectancy Range` &lt;chr&gt;,
+#   `Life Expectancy Standard Error` &lt;dbl&gt;</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span><span class='va'>me_LE</span> <span class='op'>&lt;-</span> <span class='va'>yay</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span><span class='op'>(</span><span class='va'>`Life Expectancy`</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>State</span> <span class='op'>==</span> <span class='va'>NE_names</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>County</span><span class='op'>)</span> <span class='op'>|&gt;</span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>mean_LE <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>`Life Expectancy`</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>me_LE</span></span></code></pre>
+</div>
+<pre><code># A tibble: 66 × 2
+   County                  mean_LE
+   &lt;chr&gt;                     &lt;dbl&gt;
+ 1 (blank)                    80.1
+ 2 Addison County, VT         81.1
+ 3 Androscoggin County, ME    77.8
+ 4 Aroostook County, ME       77  
+ 5 Barnstable County, MA      80.8
+ 6 Belknap County, NH         81.2
+ 7 Bennington County, VT      83.4
+ 8 Berkshire County, MA       81.0
+ 9 Bristol County, MA         78.0
+10 Bristol County, RI         83.3
+# ℹ 56 more rows</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>me_LE</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'County'</span>, <span class='st'>'State'</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_split.html'>str_split_fixed</a></span><span class='op'>(</span><span class='va'>me_LE</span><span class='op'>$</span><span class='va'>County</span>, <span class='st'>' '</span>, <span class='fl'>2</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>me_LE</span></span></code></pre>
+</div>
+<pre><code># A tibble: 66 × 3
+   County       mean_LE State       
+   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;       
+ 1 (blank)         80.1 &quot;&quot;          
+ 2 Addison         81.1 &quot;County, VT&quot;
+ 3 Androscoggin    77.8 &quot;County, ME&quot;
+ 4 Aroostook       77   &quot;County, ME&quot;
+ 5 Barnstable      80.8 &quot;County, MA&quot;
+ 6 Belknap         81.2 &quot;County, NH&quot;
+ 7 Bennington      83.4 &quot;County, VT&quot;
+ 8 Berkshire       81.0 &quot;County, MA&quot;
+ 9 Bristol         78.0 &quot;County, MA&quot;
+10 Bristol         83.3 &quot;County, RI&quot;
+# ℹ 56 more rows</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>perfect</span> <span class='op'>&lt;-</span> <span class='va'>me_LI</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span><span class='op'>(</span><span class='va'>me_LE</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NAME"</span> <span class='op'>=</span> <span class='st'>"County"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"LSAD"</span>, <span class='st'>"State"</span>, <span class='st'>"AWATER"</span>, <span class='st'>"ALAND"</span>, <span class='st'>"GEOID"</span>, <span class='st'>"AFFGEOID"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>perfect</span></span></code></pre>
+</div>
+<pre><code># A tibble: 75 × 20
+   STATEFP Employer Insurance only - Pop 35-6…¹ Employer Insurance o…²
+   &lt;chr&gt;                                  &lt;dbl&gt;                  &lt;dbl&gt;
+ 1 23                                     27039                  11858
+ 2 23                                     14033                   4752
+ 3 23                                     80700                  39966
+ 4 23                                      6476                   2973
+ 5 23                                      6476                   2973
+ 6 23                                      6476                   2973
+ 7 23                                     11768                   4383
+ 8 23                                     29167                  12761
+ 9 23                                      8218                   3037
+10 23                                      7217                   2194
+# ℹ 65 more rows
+# ℹ abbreviated names: ¹​`Employer Insurance only - Pop 35-64`,
+#   ²​`Employer Insurance only - Pop 19-34`
+# ℹ 17 more variables: `Employer Insurance only - Pop 65+` &lt;dbl&gt;,
+#   `Medicare only - Pop 19-34` &lt;dbl&gt;,
+#   `Medicare only - Pop 35-64` &lt;dbl&gt;,
+#   `Medicare only - Pop 65+` &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>PERFECT</span> <span class='op'>&lt;-</span> <span class='va'>perfect</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NAME"</span>, <span class='st'>"STATEFP"</span>, <span class='st'>"POP_DENSITY"</span>, <span class='st'>"mean_LE"</span>,</span>
+<span>               <span class='st'>"Percent of Population with No Health Insurance Coverage"</span>, <span class='st'>"Population with no Health Insurance Ages - Age 65+"</span>, <span class='st'>"Population with no Health Insurance Ages - 35-64"</span>, <span class='st'>"Population with no Health Insurance Ages - 19-34"</span>, <span class='st'>"Medicaid only - Pop 35-64"</span>, <span class='st'>"Medicaid only - Pop 19-34"</span>, <span class='st'>"Medicare only - Pop 65+"</span>, <span class='st'>"Medicare only - Pop 35-64"</span>, <span class='st'>"Medicare only - Pop 19-34"</span>, <span class='st'>"Employer Insurance only - Pop 65+"</span>, <span class='st'>"Employer Insurance only - Pop 35-64"</span>, <span class='st'>"Employer Insurance only - Pop 19-34"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span></span>
+<span><span class='va'>PERFECT</span></span></code></pre>
+</div>
+<pre><code># A tibble: 75 × 16
+   NAME         STATEFP POP_DENSITY mean_LE Percent of Population wi…¹
+   &lt;chr&gt;        &lt;chr&gt;         &lt;dbl&gt;   &lt;dbl&gt;                      &lt;dbl&gt;
+ 1 Androscoggin 23            88.8     77.8                        8  
+ 2 Aroostook    23             3.92    77                          8.4
+ 3 Cumberland   23           135.      81.0                        5.8
+ 4 Franklin     23             6.82    80.1                       10  
+ 5 Franklin     23             6.82    80.7                       10  
+ 6 Franklin     23             6.82    82.1                       10  
+ 7 Hancock      23            13.3     79.4                       10.2
+ 8 Kennebec     23            54.2     80.2                        7.4
+ 9 Knox         23            42.0     80.0                        9.4
+10 Lincoln      23            29.0     81.9                       10  
+# ℹ 65 more rows
+# ℹ abbreviated name:
+#   ¹​`Percent of Population with No Health Insurance Coverage`
+# ℹ 11 more variables:
+#   `Population with no Health Insurance Ages - Age 65+` &lt;dbl&gt;,
+#   `Population with no Health Insurance Ages - 35-64` &lt;dbl&gt;,
+#   `Population with no Health Insurance Ages - 19-34` &lt;dbl&gt;, …</code></pre>
+</div>
+<h2 id="add-horizontal-and-vertical-line-of-national-average-make-it-regional-as-opposed-to-just-maine-maybe-facet-wrap-two-different-regions">add horizontal and vertical line of national average, make it regional as opposed to just Maine, maybe facet wrap two different regions</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>PERFECT</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Percent of Population with No Health Insurance Coverage`</span>, y <span class='op'>=</span> <span class='va'>mean_LE</span>, color <span class='op'>=</span> <span class='va'>STATEFP</span>,</span>
+<span>                     fill <span class='op'>=</span> <span class='va'>STATEFP</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mean_LE</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_vline</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='st'>"Percent of Population with No Health Insurance Coverage"</span><span class='op'>)</span>, color<span class='op'>=</span><span class='st'>"indianred"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
+</div>
+<h2 id="httpsdisasters.census.govdatasetsuscensushealth-insurance-coverage-counties-2015-2019about"><a href="https://disasters.census.gov/datasets/USCensus" class="uri">https://disasters.census.gov/datasets/USCensus</a>::health-insurance-coverage-counties-2015-2019/about</h2>
+<p>##<a href="https://www.cdc.gov/nchs/data-visualization/life-expectancy/index.html" class="uri">https://www.cdc.gov/nchs/data-visualization/life-expectancy/index.html</a></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
