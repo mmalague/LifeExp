@@ -1,6 +1,6 @@
 ---
 title: "Gov 50 Final Project"
-author: "Your Name Here"
+author: "Molly Malague"
 description: "My final project"
 output:
   distill::distill_article:
@@ -15,20 +15,10 @@ library(tidyverse)
 
 ## Research Question/Thoughts!!!
 
-TEST!!!!!
-
 What effect does a lack of health insurance have on a community's average life expectancy?
-I this study, I plan to examine the correlation between health insurance coverage and life expectancy, across counties in the New England states
-
- 
-Does an area's walkability influence the life expectancy of its residents? 
-In this study, I plan to examine the correlation between walkability and life expectancy, across either counties or states.
-I hypothesize that communities with higher walkability scores also enjoy longer lives. 
-The explanatory variable of interest is statistics on walkability, as measured by the EPA. My outcome variable is the life expectancy in the same area, as measured by the US Dept. of Health and Human Services.
-If I observe that higher ratings of walkability align with longer life expectancies, this would provide support for my hypothesis. If, conversely, I observe no correlation between walkability and life expectancy, this would provide evidence against my hypothesis. 
-I also hope to incorporate various demographic measures in my study, in an attempt to attribute life expectancy to any variable that offers a strong correlation.  
-
-
+I this study, I plan to examine the correlation between health insurance coverage and life expectancy, across counties in the New England states. I hypothesize that communities with less health insurance coverage will have lower average life expectancies. 
+The explanatory variable of interest is statistics on forms/extent of life expectancy. My outcome variable is the life expectancy in the same area, as measured by the US Dept. of Health and Human Services and Census data. 
+If I observe that greater health insurance coverage aligns with longer average life expectancies, this would provide support for my hypothesis. If, conversely, I observe no correlation between health insurance and life expectancy, this would provide evidence against my hypothesis. 
 
 
 ```{r}
@@ -120,8 +110,6 @@ PERFECT <- perfect |>
 PERFECT
 ```
 
-## add horizontal and vertical line of national average, make it regional as opposed to just Maine, maybe facet wrap two different regions
-
 
 ```{r}
 PERFECT |>
@@ -150,6 +138,8 @@ PERFECT |>
     
   
 ```
+discussion : I do not observe any meaningful correlation between health insurance overage and average life expectancy. There are a few patterns in individual states, but nothing clear across the regions. The region is large enough that it is likely representative of the nation writ large, so I am surprised to find my hypothesis refuted. 
+
 
 
 ## https://disasters.census.gov/datasets/USCensus::health-insurance-coverage-counties-2015-2019/about

@@ -93,7 +93,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta property="description" itemprop="description" content="My final project"/>
 
 
-  <meta name="article:author" content="Your Name Here"/>
+  <meta name="article:author" content="Molly Malague"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Gov 50 Final Project"/>
@@ -110,7 +110,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","author","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Gov 50 Final Project"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Your Name Here"]}]}]},{"type":"character","attributes":{},"value":["My final project"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","author","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Gov 50 Final Project"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Molly Malague"]}]}]},{"type":"character","attributes":{},"value":["My final project"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1493,7 +1493,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Gov 50 Final Project","description":"My final project","authors":[{"author":"Your Name Here","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}]}
+{"title":"Gov 50 Final Project","description":"My final project","authors":[{"author":"Molly Malague","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1511,7 +1511,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-byline">
   
-  Your Name Here
+  Molly Malague
   
 
 </div>
@@ -1523,15 +1523,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <h2 id="research-questionthoughts">Research Question/Thoughts!!!</h2>
-<p>TEST!!!!!</p>
 <p>What effect does a lack of health insurance have on a community’s average life expectancy?
-I this study, I plan to examine the correlation between health insurance coverage and life expectancy, across counties in the New England states</p>
-<p>Does an area’s walkability influence the life expectancy of its residents?
-In this study, I plan to examine the correlation between walkability and life expectancy, across either counties or states.
-I hypothesize that communities with higher walkability scores also enjoy longer lives.
-The explanatory variable of interest is statistics on walkability, as measured by the EPA. My outcome variable is the life expectancy in the same area, as measured by the US Dept. of Health and Human Services.
-If I observe that higher ratings of walkability align with longer life expectancies, this would provide support for my hypothesis. If, conversely, I observe no correlation between walkability and life expectancy, this would provide evidence against my hypothesis.
-I also hope to incorporate various demographic measures in my study, in an attempt to attribute life expectancy to any variable that offers a strong correlation.</p>
+I this study, I plan to examine the correlation between health insurance coverage and life expectancy, across counties in the New England states. I hypothesize that communities with less health insurance coverage will have lower average life expectancies.
+The explanatory variable of interest is statistics on forms/extent of life expectancy. My outcome variable is the life expectancy in the same area, as measured by the US Dept. of Health and Human Services and Census data.
+If I observe that greater health insurance coverage aligns with longer average life expectancies, this would provide support for my hypothesis. If, conversely, I observe no correlation between health insurance and life expectancy, this would provide evidence against my hypothesis.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>coverage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"Health_Insurance_Coverage_-_Counties_2015-2019.csv"</span><span class='op'>)</span> </span>
@@ -1745,7 +1740,6 @@ I also hope to incorporate various demographic measures in my study, in an attem
 #   `Population with no Health Insurance Ages - 35-64` &lt;dbl&gt;,
 #   `Population with no Health Insurance Ages - 19-34` &lt;dbl&gt;, …</code></pre>
 </div>
-<h2 id="add-horizontal-and-vertical-line-of-national-average-make-it-regional-as-opposed-to-just-maine-maybe-facet-wrap-two-different-regions">add horizontal and vertical line of national average, make it regional as opposed to just Maine, maybe facet wrap two different regions</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>PERFECT</span> <span class='op'>|&gt;</span></span>
@@ -1772,6 +1766,7 @@ I also hope to incorporate various demographic measures in my study, in an attem
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-9-2.png" width="624" /></p>
 </div>
+<p>discussion : I do not observe any meaningful correlation between health insurance overage and average life expectancy. There are a few patterns in individual states, but nothing clear across the regions. The region is large enough that it is likely representative of the nation writ large, so I am surprised to find my hypothesis refuted.</p>
 <h2 id="httpsdisasters.census.govdatasetsuscensushealth-insurance-coverage-counties-2015-2019about"><a href="https://disasters.census.gov/datasets/USCensus" class="uri">https://disasters.census.gov/datasets/USCensus</a>::health-insurance-coverage-counties-2015-2019/about</h2>
 <p>##<a href="https://www.cdc.gov/nchs/data-visualization/life-expectancy/index.html" class="uri">https://www.cdc.gov/nchs/data-visualization/life-expectancy/index.html</a></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
