@@ -18,7 +18,7 @@ library(tidyverse)
 What effect does a lack of health insurance have on a community's average life expectancy?
 I this study, I plan to examine the correlation between health insurance coverage and life expectancy, across counties in the New England states
 
-
+ 
 Does an area's walkability influence the life expectancy of its residents? 
 In this study, I plan to examine the correlation between walkability and life expectancy, across either counties or states.
 I hypothesize that communities with higher walkability scores also enjoy longer lives. 
