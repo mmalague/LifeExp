@@ -80,6 +80,8 @@ PERFECT
 
 ```
 
+
+The visualization below includes a point for each New England county, colored according to its state. 
 ```{r, echo = FALSE}
 PERFECT |>
   ggplot(aes(x = `Percent of Population with No Health Insurance Coverage`, y = mean_LE, color = STATEFP)) +
@@ -127,8 +129,5 @@ discussion : I do not observe any meaningful correlation between health insuranc
 a limitation in the scope of this analysis is the dataset's use of population totals, not percentages in 
 
 
-## summary(lm(mean_LE ~ `Percent of Population with No Health Insurance Coverage`+, data = PERFECT))
+sources:
 
-## https://disasters.census.gov/datasets/USCensus::health-insurance-coverage-counties-2015-2019/about
-
-##https://www.cdc.gov/nchs/data-visualization/life-expectancy/index.html 
