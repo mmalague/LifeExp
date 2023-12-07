@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["Health_Insurance_Coverage_-_Counties_2015-2019.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-9-1.png","index_files/figure-html5/unnamed-chunk-9-2.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","U.S._Life_Expectancy_at_Birth_by_State_and_Census_Tract_-_2010-2015.csv"]}
+  {"type":"character","attributes":{},"value":["Health_Insurance_Coverage_-_Counties_2015-2019.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/figure-html5/unnamed-chunk-9-1.png","index_files/figure-html5/unnamed-chunk-9-2.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","U.S._Life_Expectancy_at_Birth_by_State_and_Census_Tract_-_2010-2015.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1520,31 +1520,55 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-<h2 id="research-questionthoughts">Research Question/Thoughts!!!</h2>
 <p>What effect does a lack of health insurance have on a community’s average life expectancy?
-In this study, I plan to examine the correlation between health insurance coverage and life expectancy, across counties in the New England states. I hypothesize that communities with less health insurance coverage will have lower average life expectancies.
-The explanatory variable of interest is statistics on forms/extent of life expectancy. My outcome variable is the life expectancy in the same area, as measured by the US Dept. of Health and Human Services and Census data.
-If I observe that greater health insurance coverage aligns with longer average life expectancies, this would provide support for my hypothesis. If, conversely, I observe no correlation between health insurance and life expectancy, this would provide evidence against my hypothesis.</p>
+In this study, I examine the correlation between health insurance coverage and life expectancy, across counties in the New England states. I hypothesize that communities with less health insurance coverage will have lower average life expectancies.
+The issue of healthcare and life expectancy is particularly salient in the wake of COVID; the national crisis laid bare ever-intensifying institutional inequality in healthcare, a phenomenon that has generational implications that often exist along racial and socioeconomic lines.
+If I observe that greater health insurance coverage aligns with longer average life expectancies, this would provide support for my hypothesis. If, conversely, I observe no correlation between health insurance and life expectancy, this would provide evidence against my hypothesis.
+I have elected to study the relationships between these two variables in New England, a region comprising Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, and Vermont. This region is relatively socioeconomically diverse, though more racially diverse in some portions/states than others</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
-</div>
-<div class="layout-chunk" data-layout="l-body">
 
 </div>
+<p>The explanatory variable of interest is statistics on the percentage of a given New England county that does not have health insurance coverage. This explanatory variable is sourced from the American Community Survey, via the Census Bureau. My outcome variable is the life expectancy in the same given county, as measured by the Center for Disease Control and Census data.
+A summary of the dependent variable is below:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<p>The following visualization includes a point for each New England county, colored according to its state.</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="index_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="index_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+<p>=====================================================================================
+Dependent variable:<br />
+—————————
+mean_LE<br />
+————————————————————————————-
+<code>Percent of Population with No Health Insurance Coverage</code> -0.050<br />
+(0.093)</p>
+<p>Constant 80.358***<br />
+(0.563)</p>
+<hr />
+<p>Observations 75<br />
+R2 0.004<br />
+Adjusted R2 -0.010<br />
+Residual Std. Error 2.295 (df = 73)<br />
+F Statistic 0.283 (df = 1; 73)<br />
+=====================================================================================
+Note: <em>p&lt;0.1; <strong>p&lt;0.05; </strong></em>p&lt;0.01</p>
 </div>
-<p>discussion : I do not observe any meaningful correlation between health insurance overage and average life expectancy. There are a few patterns in individual states, but nothing clear across the regions. The region is large enough that it is likely representative of the nation writ large, so I am surprised to find my hypothesis refuted.
-a limitation in the scope of this analysis is the dataset’s use of population totals, not percentages in</p>
-<h2 id="summarylmmean_le-percent-of-population-with-no-health-insurance-coverage-data-perfect">summary(lm(mean_LE ~ <code>Percent of Population with No Health Insurance Coverage</code>+, data = PERFECT))</h2>
-<h2 id="httpsdisasters.census.govdatasetsuscensushealth-insurance-coverage-counties-2015-2019about"><a href="https://disasters.census.gov/datasets/USCensus" class="uri">https://disasters.census.gov/datasets/USCensus</a>::health-insurance-coverage-counties-2015-2019/about</h2>
-<p>##<a href="https://www.cdc.gov/nchs/data-visualization/life-expectancy/index.html" class="uri">https://www.cdc.gov/nchs/data-visualization/life-expectancy/index.html</a></p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="index_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="index_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
+</div>
+<p>discussion :
+I cannot accept my hypothesis, as the difference in life expectancy for those with and without health insurance was not statistically significant. Although the coefficient can be interpreted to demonstrate a <code>-0.05</code> year decrease in life expectancy with every one percent increase in population without health insurance coverage, a true association cannot be made because the results do not lie within a 95% confidence interval.
+The r-squared value is 0.004, which is extraordinarily low, yet another indicator that health care coverage is a poor predictor of life expectancy.</p>
+<p>sources:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

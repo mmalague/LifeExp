@@ -13,12 +13,13 @@ output:
 library(tidyverse)
 ```
 
-## Research Question/Thoughts!!!
-
 What effect does a lack of health insurance have on a community's average life expectancy?
-In this study, I plan to examine the correlation between health insurance coverage and life expectancy, across counties in the New England states. I hypothesize that communities with less health insurance coverage will have lower average life expectancies. 
-The explanatory variable of interest is statistics on forms/extent of life expectancy. My outcome variable is the life expectancy in the same area, as measured by the US Dept. of Health and Human Services and Census data. 
+In this study, I examine the correlation between health insurance coverage and life expectancy, across counties in the New England states. I hypothesize that communities with less health insurance coverage will have lower average life expectancies. 
+The issue of healthcare and life expectancy is particularly salient in the wake of COVID; the national crisis laid bare ever-intensifying institutional inequality in healthcare, a phenomenon that has generational implications that often exist along racial and socioeconomic lines. 
 If I observe that greater health insurance coverage aligns with longer average life expectancies, this would provide support for my hypothesis. If, conversely, I observe no correlation between health insurance and life expectancy, this would provide evidence against my hypothesis. 
+I have elected to study the relationships between these two variables in New England, a region comprising Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, and Vermont. This region is relatively socioeconomically diverse, though more racially diverse in some portions/states than others
+
+
 
 
 ```{r, results='hide', echo = FALSE}
@@ -42,11 +43,17 @@ coverage <- read_csv("Health_Insurance_Coverage_-_Counties_2015-2019.csv")
  good_names_only <- good_names |>
   select("STATEFP", "Employer Insurance only - Pop 35-64", "Employer Insurance only - Pop 19-34", "Employer Insurance only - Pop 65+", "Medicare only - Pop 19-34", "Medicare only - Pop 35-64", "Medicare only - Pop 65+",  "Medicaid only - Pop 19-34",  "Medicaid only - Pop 35-64", "Medicaid only - Pop 65+", "Population with no Health Insurance Ages - 19-34", "Population with no Health Insurance Ages - 35-64", "Population with no Health Insurance Ages - Age 65+", "Percent of Population with No Health Insurance Coverage", "COUNTYFP", "COUNTYNS", "AFFGEOID", "GEOID", "NAME", "LSAD", "ALAND", "AWATER", "GEO_PARENT_NAME", "POP_DENSITY")
 ###
-new_england <- c(23, 09, 25, 33, 44, 50)
-###
-me_LI <- good_names_only  |>
-  filter(STATEFP %in% new_england)
-me_LI
+
+new_england_ <- c(09, 23, 25, 33, 44, 50)
+
+NE_LI <- good_names_only |>
+  filter(STATEFP %in% new_england_)
+NE_LI
+
+```
+
+
+```{r, results='hide', echo = FALSE}
 ###
 BESTLE <- read_csv("U.S._Life_Expectancy_at_Birth_by_State_and_Census_Tract_-_2010-2015.csv")
 ###
@@ -57,6 +64,7 @@ yay <- BESTLE |>
 yay
 ###
 library(dplyr)
+
 me_LE <- yay |>
   drop_na(`Life Expectancy`) |>
   filter(State == NE_names) |>
@@ -67,7 +75,7 @@ me_LE
 me_LE[c('County', 'State')] <- str_split_fixed(me_LE$County, ' ', 2)
 me_LE
 ###
-perfect <- me_LI |>
+perfect <- NE_LI |>
   inner_join(me_LE, by = c("NAME" = "County")) |>
   select(-c("LSAD", "State", "AWATER", "ALAND", "GEOID", "AFFGEOID"))
 perfect
@@ -81,28 +89,46 @@ PERFECT
 ```
 
 
-The visualization below includes a point for each New England county, colored according to its state. 
+The explanatory variable of interest is statistics on the percentage of a given New England county that does not have health insurance coverage. This explanatory variable is sourced from the American Community Survey, via the Census Bureau. My outcome variable is the life expectancy in the same given county, as measured by the Center for Disease Control and Census data. 
+A summary of the dependent variable is below:
+
+
+```{r, echo = FALSE}
+ggplot(data = PERFECT,
+       mapping = aes(x = `Percent of Population with No Health Insurance Coverage`)) +
+  geom_histogram()
+```
+
+
+The following visualization includes a point for each New England county, colored according to its state. 
+
+
+
 ```{r, echo = FALSE}
 PERFECT |>
   ggplot(aes(x = `Percent of Population with No Health Insurance Coverage`, y = mean_LE, color = STATEFP)) +
   geom_point() + geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + 
-  geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) + 
+  geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3, ) + 
   labs(x = "Percent of Population with No Health Insurance Coverage",
        y = "Mean Life Expectancy",
        title = "Percent of Population without Health Insurance -- and Average Life Expectancy",
-       subtitle = "Among Counties in the Northeast")
+       subtitle = "Among Counties in the Northeast") +
+scale_color_discrete(name = "State", labels = c("Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont")) 
 
 ```
 
-```{r, results='hide', echo = FALSE}
-summary(lm(mean_LE ~ `Percent of Population with No Health Insurance Coverage` , data = PERFECT))
+```{r, results='hide', echo = FALSE, results = 'asis'}
+fit <- lm(mean_LE ~ `Percent of Population with No Health Insurance Coverage` , data = PERFECT)
+library(broom)
+library(stargazer)
+stargazer(fit, type = 'text')
 ```
 
 
 ```{r, echo = FALSE}
 PERFECT |>
   ggplot(aes(x = `Percent of Population with No Health Insurance Coverage`, y = mean_LE)) +
-   geom_smooth(method = "lm", se = FALSE) + geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) +
+   geom_smooth(method = "lm", se = TRUE) + geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) +
   labs(x = "Percent of Population with No Health Insurance Coverage",
        y = "Mean Life Expectancy",
        title = "Percent of Population without Health Insurance -- and Average Life Expectancy",
@@ -114,19 +140,24 @@ PERFECT |>
 ```{r, echo = FALSE}
 PERFECT |>
   ggplot(aes(x = `Percent of Population with No Health Insurance Coverage`, y = mean_LE, color = STATEFP)) +
-   geom_smooth(method = "lm", se = FALSE) + geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) + 
+   geom_smooth(method = "lm", se = TRUE) + 
+  geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + 
+  geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) + 
   labs(x = "Percent of Population with No Health Insurance Coverage",
        y = "Mean Life Expectancy",
        title = "Percent of Population without Health Insurance -- and Average Life Expectancy",
        subtitle = "Among Counties in the Northeast",
        color = "States") + 
+  facet_wrap(~STATEFP) + 
 scale_color_discrete(name = "State", labels = c("Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont")) 
 
 ```
 
 
-discussion : I do not observe any meaningful correlation between health insurance overage and average life expectancy. There are a few patterns in individual states, but nothing clear across the regions. The region is large enough that it is likely representative of the nation writ large, so I am surprised to find my hypothesis refuted. 
-a limitation in the scope of this analysis is the dataset's use of population totals, not percentages in 
+discussion :
+I cannot accept my hypothesis, as the difference in life expectancy for those with and without health insurance was not statistically significant. Although the coefficient can be interpreted to demonstrate a `-0.05`  year decrease in life expectancy with every one percent increase in population without health insurance coverage, a true association cannot be made because the results do not lie within a 95% confidence interval.
+The r-squared value is 0.004, which is extraordinarily low, yet another indicator that health care coverage is a poor predictor of life expectancy. 
+
 
 
 sources:
