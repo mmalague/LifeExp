@@ -1,7 +1,7 @@
 ---
 title: "Gov 50 Final Project"
 author: "Molly Malague"
-description: "My final project"
+description: "Health Insurance and Life Expectancy"
 output:
   distill::distill_article:
     self_contained: false
@@ -14,10 +14,11 @@ library(tidyverse)
 ```
 
 What effect does a lack of health insurance have on a community's average life expectancy?
-In this study, I examine the correlation between health insurance coverage and life expectancy, across counties in the New England states. I hypothesize that communities with less health insurance coverage will have lower average life expectancies. 
+
+In this study, I examine the correlation between health insurance coverage and life expectancy, across counties in the New England states of Maine, Massachusetts, New Hampshire, Rhode Island, and Vermont. I hypothesize that communities with less health insurance coverage will have lower average life expectancies. 
 The issue of healthcare and life expectancy is particularly salient in the wake of COVID; the national crisis laid bare ever-intensifying institutional inequality in healthcare, a phenomenon that has generational implications that often exist along racial and socioeconomic lines. 
 If I observe that greater health insurance coverage aligns with longer average life expectancies, this would provide support for my hypothesis. If, conversely, I observe no correlation between health insurance and life expectancy, this would provide evidence against my hypothesis. 
-I have elected to study the relationships between these two variables in New England, a region comprising Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, and Vermont. This region is relatively socioeconomically diverse, though more racially diverse in some portions/states than others
+I have elected to study the relationships between these two variables in five of the New England states, including Maine, Massachusetts, New Hampshire, Rhode Island, and Vermont. This region is considered to be relatively socioeconomically diverse, though more racially diverse in some portions/states than others. There should be a sufficient number of counties to reflect trends across the country.
 
 
 
@@ -89,7 +90,7 @@ PERFECT
 ```
 
 
-The explanatory variable of interest is statistics on the percentage of a given New England county that does not have health insurance coverage. This explanatory variable is sourced from the American Community Survey, via the Census Bureau. My outcome variable is the life expectancy in the same given county, as measured by the Center for Disease Control and Census data. 
+The explanatory variable of interest is statistics on the percentage of a given county population that does not have health insurance coverage. This explanatory variable is sourced from the American Community Survey, via the Census Bureau. My outcome variable is the life expectancy in the same given county, as measured by the Center for Disease Control and Census data. 
 A summary of the dependent variable is below:
 
 
@@ -100,19 +101,18 @@ ggplot(data = PERFECT,
 ```
 
 
-The following visualization includes a point for each New England county, colored according to its state. 
+The following visualization includes a point for each county, colored according to its state. 
 
 
 
 ```{r, echo = FALSE}
 PERFECT |>
   ggplot(aes(x = `Percent of Population with No Health Insurance Coverage`, y = mean_LE, color = STATEFP)) +
-  geom_point() + geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + 
-  geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3, ) + 
-  labs(x = "Percent of Population with No Health Insurance Coverage",
+  geom_point() +  geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + annotate("text", x=8, y=80.2, label="Average Life Expectancy", size = 3) +
+  geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) + annotate("text", x=5.1, y=80, label="Average Percent without Health Insurance", angle=90, size = 3) + labs(x = "Percent of Population with No Health Insurance Coverage",
        y = "Mean Life Expectancy",
        title = "Percent of Population without Health Insurance -- and Average Life Expectancy",
-       subtitle = "Among Counties in the Northeast") +
+       subtitle = "Among Counties in 5 Northeast States") +
 scale_color_discrete(name = "State", labels = c("Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont")) 
 
 ```
@@ -128,27 +128,38 @@ stargazer(fit, type = 'text')
 ```{r, echo = FALSE}
 PERFECT |>
   ggplot(aes(x = `Percent of Population with No Health Insurance Coverage`, y = mean_LE)) +
-   geom_smooth(method = "lm", se = TRUE) + geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) +
-  labs(x = "Percent of Population with No Health Insurance Coverage",
+   geom_smooth(method = "lm", se = TRUE) + geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + annotate("text", x=8, y=80.2, label="Average Life Expectancy", size = 3) +
+  geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) + annotate("text", x=5.1, y=80, label="Average Percent without Health Insurance", angle=90, size = 3) + labs(x = "Percent of Population with No Health Insurance Coverage",
        y = "Mean Life Expectancy",
        title = "Percent of Population without Health Insurance -- and Average Life Expectancy",
-       subtitle = "Among Counties in the Northeast")
+       subtitle = "Among Counties in 5 Northeast States")
 
 ```
 
 
+```{r, results='hide', echo = FALSE}
+final <- PERFECT |>
+  mutate(state_name = case_when(
+      STATEFP == 23 ~ "Maine",
+      STATEFP == 25 ~ "Massachusetts",
+      STATEFP == 33 ~ "New Hampshire",
+      STATEFP == 44 ~ "Rhode Island",
+      STATEFP == 50 ~ "Vermont"))
+final
+```
+
 ```{r, echo = FALSE}
-PERFECT |>
-  ggplot(aes(x = `Percent of Population with No Health Insurance Coverage`, y = mean_LE, color = STATEFP)) +
-   geom_smooth(method = "lm", se = TRUE) + 
-  geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + 
-  geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) + 
-  labs(x = "Percent of Population with No Health Insurance Coverage",
+
+
+final |>
+  ggplot(aes(x = `Percent of Population with No Health Insurance Coverage`, y = mean_LE, color = state_name)) +
+   geom_smooth(method = "lm", se = TRUE) + geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + annotate("text", x=8.5, y=81, label="Average Life Expectancy", size = 2) +
+  geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) + annotate("text", x=5, y=79, label="Average Percent without Health Insurance", angle=90, size = 2) + labs(x = "Percent of Population with No Health Insurance Coverage",
        y = "Mean Life Expectancy",
        title = "Percent of Population without Health Insurance -- and Average Life Expectancy",
-       subtitle = "Among Counties in the Northeast",
+       subtitle = "Among Counties in 5 Northeast States",
        color = "States") + 
-  facet_wrap(~STATEFP) + 
+  facet_wrap(~state_name) + 
 scale_color_discrete(name = "State", labels = c("Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont")) 
 
 ```
