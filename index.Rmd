@@ -125,7 +125,10 @@ scale_color_discrete(name = "State", labels = c("Maine", "Massachusetts", "New H
 
 ```
 
+
 Linear Regression:
+
+
 ```{r, echo = FALSE, results = 'asis'}
 fit <- lm(mean_LE ~ `Percent of Population with No Health Insurance Coverage` , data = PERFECT)
 library(broom)
@@ -158,7 +161,10 @@ final
 ```
 
 
+
 The following visualization is facet-wrapped, offering a look at trends across individual states:
+
+
 ```{r, echo = FALSE}
 
 
@@ -177,10 +183,136 @@ scale_color_discrete(name = "State", labels = c("Maine", "Massachusetts", "New H
 
 
 discussion :
-I cannot accept my hypothesis--nor reject the null hypothesis, as the difference in life expectancy for those with and without health insurance was not statistically significant. Although the coefficient can be interpreted to demonstrate a `-0.05`  year decrease in life expectancy with every one percent increase in population without health insurance coverage, a true association cannot be made because the results do not lie within a 95% confidence interval.
+I cannot accept my hypothesis--nor reject the null hypothesis--, as the difference in life expectancy for those with and without health insurance was not statistically significant. Although the coefficient can be interpreted to demonstrate a `-0.05`  year decrease in life expectancy with every one percent increase in population without health insurance coverage, a true association cannot be made because the results do not lie within a 95% confidence interval.
 The r-squared value is 0.004, which is extraordinarily low, yet another indicator that health care coverage is a poor predictor of life expectancy. 
 
 
 
 sources:
+U.S. Census Bureau. "Health Insurance Coverage - Counties 2015-2019." https://covid19.census.gov/datasets/USCensus::health-insurance-coverage-counties-2015-2019/about 
+U.S. Department of Health and Human Services- Centers for Disease Control and Prevention. "U.S. Life Expectancy at Birth by State and Census Tract - 2010-2015." https://catalog.data.gov/dataset/u-s-life-expectancy-at-birth-by-state-and-census-tract-2010-2015 
+
+
+
+```{r, eval = FALSE}
+coverage <- read_csv("Health_Insurance_Coverage_-_Counties_2015-2019.csv") 
+###
+ good_names <- coverage |>
+   rename("Employer Insurance only - Pop 35-64" = "B27010_036E",
+          "Employer Insurance only - Pop 19-34" = "B27010_020E",
+          "Employer Insurance only - Pop 65+" = "B27010_053E",
+          "Medicare only - Pop 19-34" = "B27010_022E",
+          "Medicare only - Pop 35-64" = "B27010_038E",
+          "Medicare only - Pop 65+" = "B27010_055E",
+          "Medicaid only - Pop 19-34" = "B27010_023E",
+          "Medicaid only - Pop 35-64" = "B27010_039E",
+          "Medicaid only - Pop 65+" = "MEDICAID65_CALC",
+          "Population with no Health Insurance Ages - 19-34" = "B27010_033E",
+          "Population with no Health Insurance Ages - 35-64" = "B27010_050E",
+          "Population with no Health Insurance Ages - Age 65+" = "B27010_066E",
+          "Percent of Population with No Health Insurance Coverage" = "DP03_0099PE")
+### 
+ good_names_only <- good_names |>
+  select("STATEFP", "Employer Insurance only - Pop 35-64", "Employer Insurance only - Pop 19-34", "Employer Insurance only - Pop 65+", "Medicare only - Pop 19-34", "Medicare only - Pop 35-64", "Medicare only - Pop 65+",  "Medicaid only - Pop 19-34",  "Medicaid only - Pop 35-64", "Medicaid only - Pop 65+", "Population with no Health Insurance Ages - 19-34", "Population with no Health Insurance Ages - 35-64", "Population with no Health Insurance Ages - Age 65+", "Percent of Population with No Health Insurance Coverage", "COUNTYFP", "COUNTYNS", "AFFGEOID", "GEOID", "NAME", "LSAD", "ALAND", "AWATER", "GEO_PARENT_NAME", "POP_DENSITY")
+###
+
+new_england_ <- c(09, 23, 25, 33, 44, 50)
+
+NE_LI <- good_names_only |>
+  filter(STATEFP %in% new_england_)
+
+```
+
+
+```{r, eval = FALSE}
+###
+BESTLE <- read_csv("U.S._Life_Expectancy_at_Birth_by_State_and_Census_Tract_-_2010-2015.csv")
+###
+NE_names <- c("Maine", "New Hampshire", "Connecticut", "Vermont", "Massachusetts", "Rhode Island")
+###
+yay <- BESTLE |>
+  filter(State %in% NE_names)
+
+###
+library(dplyr)
+
+me_LE <- yay |>
+  drop_na(`Life Expectancy`) |>
+  filter(State == NE_names) |>
+  group_by(County) |> 
+  summarise(mean_LE = mean(`Life Expectancy`))
+
+###
+me_LE[c('County', 'State')] <- str_split_fixed(me_LE$County, ' ', 2)
+
+###
+perfect <- NE_LI |>
+  inner_join(me_LE, by = c("NAME" = "County")) |>
+  select(-c("LSAD", "State", "AWATER", "ALAND", "GEOID", "AFFGEOID"))
+
+###
+PERFECT <- perfect |>
+  select(c("NAME", "STATEFP", "POP_DENSITY", "mean_LE",
+               "Percent of Population with No Health Insurance Coverage", "Population with no Health Insurance Ages - Age 65+", "Population with no Health Insurance Ages - 35-64", "Population with no Health Insurance Ages - 19-34", "Medicaid only - Pop 35-64", "Medicaid only - Pop 19-34", "Medicare only - Pop 65+", "Medicare only - Pop 35-64", "Medicare only - Pop 19-34", "Employer Insurance only - Pop 65+", "Employer Insurance only - Pop 35-64", "Employer Insurance only - Pop 19-34"))
+```
+
+```{r, eval = FALSE}
+ggplot(data = PERFECT,
+       mapping = aes(x = `Percent of Population with No Health Insurance Coverage`)) +
+  geom_histogram()
+```
+
+```{r, eval = FALSE}
+PERFECT |>
+  ggplot(aes(x = `Percent of Population with No Health Insurance Coverage`, y = mean_LE, color = STATEFP)) +
+  geom_point() +  geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + annotate("text", x=8, y=80.2, label="Average Life Expectancy", size = 3) +
+  geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) + annotate("text", x=5.1, y=80, label="Average Percent without Health Insurance", angle=90, size = 3) + labs(x = "Percent of Population with No Health Insurance Coverage",
+       y = "Mean Life Expectancy",
+       title = "Health Insurance Coverage and Average Life Expectancy",
+       subtitle = "Among Counties in 5 Northeast States") +
+scale_color_discrete(name = "State", labels = c("Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont")) 
+```
+
+```{r, eval = FALSE}
+fit <- lm(mean_LE ~ `Percent of Population with No Health Insurance Coverage` , data = PERFECT)
+library(broom)
+library(stargazer)
+stargazer(fit, type = 'text')
+```
+
+```{r, eval = FALSE}
+PERFECT |>
+  ggplot(aes(x = `Percent of Population with No Health Insurance Coverage`, y = mean_LE)) +
+   geom_smooth(method = "lm", se = TRUE) + geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + annotate("text", x=8, y=80.2, label="Average Life Expectancy", size = 3) +
+  geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) + annotate("text", x=5.1, y=80, label="Average Percent without Health Insurance", angle=90, size = 3) + labs(x = "Percent of Population with No Health Insurance Coverage",
+       y = "Mean Life Expectancy",
+       title = "Health Insurance Coverage and Average Life Expectancy",
+       subtitle = "Among Counties in 5 Northeast States")
+```
+
+```{r, eval = FALSE}
+final <- PERFECT |>
+  mutate(state_name = case_when(
+      STATEFP == 23 ~ "Maine",
+      STATEFP == 25 ~ "Massachusetts",
+      STATEFP == 33 ~ "New Hampshire",
+      STATEFP == 44 ~ "Rhode Island",
+      STATEFP == 50 ~ "Vermont"))
+```
+
+
+```{r, eval = FALSE}
+final |>
+  ggplot(aes(x = `Percent of Population with No Health Insurance Coverage`, y = mean_LE, color = state_name)) +
+   geom_smooth(method = "lm", se = TRUE) + geom_hline(aes(yintercept = mean(mean_LE)), color = "black", linetype = 3) + annotate("text", x=8.5, y=81, label="Average Life Expectancy", size = 2) +
+  geom_vline(aes(xintercept = mean(`Percent of Population with No Health Insurance Coverage`)), color = "black", linetype = 3) + annotate("text", x=5, y=79, label="Average Percent without Health Insurance", angle=90, size = 2) + labs(x = "Percent of Population with No Health Insurance Coverage",
+       y = "Mean Life Expectancy",
+       title = "Health Insurance Coverage and Average Life Expectancy",
+       subtitle = "Among Counties in 5 Northeast States",
+       color = "States") + 
+  facet_wrap(~state_name) + 
+scale_color_discrete(name = "State", labels = c("Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont")) 
+```
+
+
 

@@ -1548,7 +1548,7 @@ The following visualization is an initial look at the relationship between the e
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="index_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
 </div>
-Linear Regression:
+<p>Linear Regression:</p>
 <div class="layout-chunk" data-layout="l-body">
 <p>=====================================================================================
 Dependent variable:<br />
@@ -1574,14 +1574,141 @@ Note: <em>p&lt;0.1; <strong>p&lt;0.05; </strong></em>p&lt;0.01</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-The following visualization is facet-wrapped, offering a look at trends across individual states:
+<p>The following visualization is facet-wrapped, offering a look at trends across individual states:</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="index_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
 </div>
 <p>discussion :
-I cannot accept my hypothesis–nor reject the null hypothesis, as the difference in life expectancy for those with and without health insurance was not statistically significant. Although the coefficient can be interpreted to demonstrate a <code>-0.05</code> year decrease in life expectancy with every one percent increase in population without health insurance coverage, a true association cannot be made because the results do not lie within a 95% confidence interval.
+I cannot accept my hypothesis–nor reject the null hypothesis–, as the difference in life expectancy for those with and without health insurance was not statistically significant. Although the coefficient can be interpreted to demonstrate a <code>-0.05</code> year decrease in life expectancy with every one percent increase in population without health insurance coverage, a true association cannot be made because the results do not lie within a 95% confidence interval.
 The r-squared value is 0.004, which is extraordinarily low, yet another indicator that health care coverage is a poor predictor of life expectancy.</p>
-<p>sources:</p>
+<p>sources:
+U.S. Census Bureau. “Health Insurance Coverage - Counties 2015-2019.” <a href="https://covid19.census.gov/datasets/USCensus" class="uri">https://covid19.census.gov/datasets/USCensus</a>::health-insurance-coverage-counties-2015-2019/about
+U.S. Department of Health and Human Services- Centers for Disease Control and Prevention. “U.S. Life Expectancy at Birth by State and Census Tract - 2010-2015.” <a href="https://catalog.data.gov/dataset/u-s-life-expectancy-at-birth-by-state-and-census-tract-2010-2015" class="uri">https://catalog.data.gov/dataset/u-s-life-expectancy-at-birth-by-state-and-census-tract-2010-2015</a></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>coverage</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"Health_Insurance_Coverage_-_Counties_2015-2019.csv"</span><span class='op'>)</span> </span>
+<span><span class='co'>###</span></span>
+<span> <span class='va'>good_names</span> <span class='op'>&lt;-</span> <span class='va'>coverage</span> <span class='op'>|&gt;</span></span>
+<span>   <span class='fu'>rename</span><span class='op'>(</span><span class='st'>"Employer Insurance only - Pop 35-64"</span> <span class='op'>=</span> <span class='st'>"B27010_036E"</span>,</span>
+<span>          <span class='st'>"Employer Insurance only - Pop 19-34"</span> <span class='op'>=</span> <span class='st'>"B27010_020E"</span>,</span>
+<span>          <span class='st'>"Employer Insurance only - Pop 65+"</span> <span class='op'>=</span> <span class='st'>"B27010_053E"</span>,</span>
+<span>          <span class='st'>"Medicare only - Pop 19-34"</span> <span class='op'>=</span> <span class='st'>"B27010_022E"</span>,</span>
+<span>          <span class='st'>"Medicare only - Pop 35-64"</span> <span class='op'>=</span> <span class='st'>"B27010_038E"</span>,</span>
+<span>          <span class='st'>"Medicare only - Pop 65+"</span> <span class='op'>=</span> <span class='st'>"B27010_055E"</span>,</span>
+<span>          <span class='st'>"Medicaid only - Pop 19-34"</span> <span class='op'>=</span> <span class='st'>"B27010_023E"</span>,</span>
+<span>          <span class='st'>"Medicaid only - Pop 35-64"</span> <span class='op'>=</span> <span class='st'>"B27010_039E"</span>,</span>
+<span>          <span class='st'>"Medicaid only - Pop 65+"</span> <span class='op'>=</span> <span class='st'>"MEDICAID65_CALC"</span>,</span>
+<span>          <span class='st'>"Population with no Health Insurance Ages - 19-34"</span> <span class='op'>=</span> <span class='st'>"B27010_033E"</span>,</span>
+<span>          <span class='st'>"Population with no Health Insurance Ages - 35-64"</span> <span class='op'>=</span> <span class='st'>"B27010_050E"</span>,</span>
+<span>          <span class='st'>"Population with no Health Insurance Ages - Age 65+"</span> <span class='op'>=</span> <span class='st'>"B27010_066E"</span>,</span>
+<span>          <span class='st'>"Percent of Population with No Health Insurance Coverage"</span> <span class='op'>=</span> <span class='st'>"DP03_0099PE"</span><span class='op'>)</span></span>
+<span><span class='co'>### </span></span>
+<span> <span class='va'>good_names_only</span> <span class='op'>&lt;-</span> <span class='va'>good_names</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>select</span><span class='op'>(</span><span class='st'>"STATEFP"</span>, <span class='st'>"Employer Insurance only - Pop 35-64"</span>, <span class='st'>"Employer Insurance only - Pop 19-34"</span>, <span class='st'>"Employer Insurance only - Pop 65+"</span>, <span class='st'>"Medicare only - Pop 19-34"</span>, <span class='st'>"Medicare only - Pop 35-64"</span>, <span class='st'>"Medicare only - Pop 65+"</span>,  <span class='st'>"Medicaid only - Pop 19-34"</span>,  <span class='st'>"Medicaid only - Pop 35-64"</span>, <span class='st'>"Medicaid only - Pop 65+"</span>, <span class='st'>"Population with no Health Insurance Ages - 19-34"</span>, <span class='st'>"Population with no Health Insurance Ages - 35-64"</span>, <span class='st'>"Population with no Health Insurance Ages - Age 65+"</span>, <span class='st'>"Percent of Population with No Health Insurance Coverage"</span>, <span class='st'>"COUNTYFP"</span>, <span class='st'>"COUNTYNS"</span>, <span class='st'>"AFFGEOID"</span>, <span class='st'>"GEOID"</span>, <span class='st'>"NAME"</span>, <span class='st'>"LSAD"</span>, <span class='st'>"ALAND"</span>, <span class='st'>"AWATER"</span>, <span class='st'>"GEO_PARENT_NAME"</span>, <span class='st'>"POP_DENSITY"</span><span class='op'>)</span></span>
+<span><span class='co'>###</span></span>
+<span></span>
+<span><span class='va'>new_england_</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>09</span>, <span class='fl'>23</span>, <span class='fl'>25</span>, <span class='fl'>33</span>, <span class='fl'>44</span>, <span class='fl'>50</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>NE_LI</span> <span class='op'>&lt;-</span> <span class='va'>good_names_only</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>STATEFP</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>new_england_</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>###</span></span>
+<span><span class='va'>BESTLE</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"U.S._Life_Expectancy_at_Birth_by_State_and_Census_Tract_-_2010-2015.csv"</span><span class='op'>)</span></span>
+<span><span class='co'>###</span></span>
+<span><span class='va'>NE_names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Maine"</span>, <span class='st'>"New Hampshire"</span>, <span class='st'>"Connecticut"</span>, <span class='st'>"Vermont"</span>, <span class='st'>"Massachusetts"</span>, <span class='st'>"Rhode Island"</span><span class='op'>)</span></span>
+<span><span class='co'>###</span></span>
+<span><span class='va'>yay</span> <span class='op'>&lt;-</span> <span class='va'>BESTLE</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>State</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>NE_names</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>###</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>me_LE</span> <span class='op'>&lt;-</span> <span class='va'>yay</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>drop_na</span><span class='op'>(</span><span class='va'>`Life Expectancy`</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>State</span> <span class='op'>==</span> <span class='va'>NE_names</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>County</span><span class='op'>)</span> <span class='op'>|&gt;</span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>mean_LE <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>`Life Expectancy`</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>###</span></span>
+<span><span class='va'>me_LE</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'County'</span>, <span class='st'>'State'</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>str_split_fixed</span><span class='op'>(</span><span class='va'>me_LE</span><span class='op'>$</span><span class='va'>County</span>, <span class='st'>' '</span>, <span class='fl'>2</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>###</span></span>
+<span><span class='va'>perfect</span> <span class='op'>&lt;-</span> <span class='va'>NE_LI</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span><span class='op'>(</span><span class='va'>me_LE</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NAME"</span> <span class='op'>=</span> <span class='st'>"County"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"LSAD"</span>, <span class='st'>"State"</span>, <span class='st'>"AWATER"</span>, <span class='st'>"ALAND"</span>, <span class='st'>"GEOID"</span>, <span class='st'>"AFFGEOID"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>###</span></span>
+<span><span class='va'>PERFECT</span> <span class='op'>&lt;-</span> <span class='va'>perfect</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NAME"</span>, <span class='st'>"STATEFP"</span>, <span class='st'>"POP_DENSITY"</span>, <span class='st'>"mean_LE"</span>,</span>
+<span>               <span class='st'>"Percent of Population with No Health Insurance Coverage"</span>, <span class='st'>"Population with no Health Insurance Ages - Age 65+"</span>, <span class='st'>"Population with no Health Insurance Ages - 35-64"</span>, <span class='st'>"Population with no Health Insurance Ages - 19-34"</span>, <span class='st'>"Medicaid only - Pop 35-64"</span>, <span class='st'>"Medicaid only - Pop 19-34"</span>, <span class='st'>"Medicare only - Pop 65+"</span>, <span class='st'>"Medicare only - Pop 35-64"</span>, <span class='st'>"Medicare only - Pop 19-34"</span>, <span class='st'>"Employer Insurance only - Pop 65+"</span>, <span class='st'>"Employer Insurance only - Pop 35-64"</span>, <span class='st'>"Employer Insurance only - Pop 19-34"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>PERFECT</span>,</span>
+<span>       mapping <span class='op'>=</span> <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Percent of Population with No Health Insurance Coverage`</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'>geom_histogram</span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>PERFECT</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Percent of Population with No Health Insurance Coverage`</span>, y <span class='op'>=</span> <span class='va'>mean_LE</span>, color <span class='op'>=</span> <span class='va'>STATEFP</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'>geom_point</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>  <span class='fu'>geom_hline</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mean_LE</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"black"</span>, linetype <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>annotate</span><span class='op'>(</span><span class='st'>"text"</span>, x<span class='op'>=</span><span class='fl'>8</span>, y<span class='op'>=</span><span class='fl'>80.2</span>, label<span class='op'>=</span><span class='st'>"Average Life Expectancy"</span>, size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'>geom_vline</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>`Percent of Population with No Health Insurance Coverage`</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"black"</span>, linetype <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>annotate</span><span class='op'>(</span><span class='st'>"text"</span>, x<span class='op'>=</span><span class='fl'>5.1</span>, y<span class='op'>=</span><span class='fl'>80</span>, label<span class='op'>=</span><span class='st'>"Average Percent without Health Insurance"</span>, angle<span class='op'>=</span><span class='fl'>90</span>, size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Percent of Population with No Health Insurance Coverage"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Mean Life Expectancy"</span>,</span>
+<span>       title <span class='op'>=</span> <span class='st'>"Health Insurance Coverage and Average Life Expectancy"</span>,</span>
+<span>       subtitle <span class='op'>=</span> <span class='st'>"Among Counties in 5 Northeast States"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span><span class='fu'>scale_color_discrete</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"State"</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Maine"</span>, <span class='st'>"Massachusetts"</span>, <span class='st'>"New Hampshire"</span>, <span class='st'>"Rhode Island"</span>, <span class='st'>"Vermont"</span><span class='op'>)</span><span class='op'>)</span> </span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>mean_LE</span> <span class='op'>~</span> <span class='va'>`Percent of Population with No Health Insurance Coverage`</span> , data <span class='op'>=</span> <span class='va'>PERFECT</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://broom.tidymodels.org/'>broom</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>stargazer</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/stargazer/man/stargazer.html'>stargazer</a></span><span class='op'>(</span><span class='va'>fit</span>, type <span class='op'>=</span> <span class='st'>'text'</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>PERFECT</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Percent of Population with No Health Insurance Coverage`</span>, y <span class='op'>=</span> <span class='va'>mean_LE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>   <span class='fu'>geom_smooth</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, se <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>geom_hline</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mean_LE</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"black"</span>, linetype <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>annotate</span><span class='op'>(</span><span class='st'>"text"</span>, x<span class='op'>=</span><span class='fl'>8</span>, y<span class='op'>=</span><span class='fl'>80.2</span>, label<span class='op'>=</span><span class='st'>"Average Life Expectancy"</span>, size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'>geom_vline</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>`Percent of Population with No Health Insurance Coverage`</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"black"</span>, linetype <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>annotate</span><span class='op'>(</span><span class='st'>"text"</span>, x<span class='op'>=</span><span class='fl'>5.1</span>, y<span class='op'>=</span><span class='fl'>80</span>, label<span class='op'>=</span><span class='st'>"Average Percent without Health Insurance"</span>, angle<span class='op'>=</span><span class='fl'>90</span>, size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Percent of Population with No Health Insurance Coverage"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Mean Life Expectancy"</span>,</span>
+<span>       title <span class='op'>=</span> <span class='st'>"Health Insurance Coverage and Average Life Expectancy"</span>,</span>
+<span>       subtitle <span class='op'>=</span> <span class='st'>"Among Counties in 5 Northeast States"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>final</span> <span class='op'>&lt;-</span> <span class='va'>PERFECT</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>state_name <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span></span>
+<span>      <span class='va'>STATEFP</span> <span class='op'>==</span> <span class='fl'>23</span> <span class='op'>~</span> <span class='st'>"Maine"</span>,</span>
+<span>      <span class='va'>STATEFP</span> <span class='op'>==</span> <span class='fl'>25</span> <span class='op'>~</span> <span class='st'>"Massachusetts"</span>,</span>
+<span>      <span class='va'>STATEFP</span> <span class='op'>==</span> <span class='fl'>33</span> <span class='op'>~</span> <span class='st'>"New Hampshire"</span>,</span>
+<span>      <span class='va'>STATEFP</span> <span class='op'>==</span> <span class='fl'>44</span> <span class='op'>~</span> <span class='st'>"Rhode Island"</span>,</span>
+<span>      <span class='va'>STATEFP</span> <span class='op'>==</span> <span class='fl'>50</span> <span class='op'>~</span> <span class='st'>"Vermont"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>final</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Percent of Population with No Health Insurance Coverage`</span>, y <span class='op'>=</span> <span class='va'>mean_LE</span>, color <span class='op'>=</span> <span class='va'>state_name</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>   <span class='fu'>geom_smooth</span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, se <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>geom_hline</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mean_LE</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"black"</span>, linetype <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>annotate</span><span class='op'>(</span><span class='st'>"text"</span>, x<span class='op'>=</span><span class='fl'>8.5</span>, y<span class='op'>=</span><span class='fl'>81</span>, label<span class='op'>=</span><span class='st'>"Average Life Expectancy"</span>, size <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'>geom_vline</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>`Percent of Population with No Health Insurance Coverage`</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"black"</span>, linetype <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>annotate</span><span class='op'>(</span><span class='st'>"text"</span>, x<span class='op'>=</span><span class='fl'>5</span>, y<span class='op'>=</span><span class='fl'>79</span>, label<span class='op'>=</span><span class='st'>"Average Percent without Health Insurance"</span>, angle<span class='op'>=</span><span class='fl'>90</span>, size <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Percent of Population with No Health Insurance Coverage"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Mean Life Expectancy"</span>,</span>
+<span>       title <span class='op'>=</span> <span class='st'>"Health Insurance Coverage and Average Life Expectancy"</span>,</span>
+<span>       subtitle <span class='op'>=</span> <span class='st'>"Among Counties in 5 Northeast States"</span>,</span>
+<span>       color <span class='op'>=</span> <span class='st'>"States"</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>state_name</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span><span class='fu'>scale_color_discrete</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"State"</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Maine"</span>, <span class='st'>"Massachusetts"</span>, <span class='st'>"New Hampshire"</span>, <span class='st'>"Rhode Island"</span>, <span class='st'>"Vermont"</span><span class='op'>)</span><span class='op'>)</span> </span></code></pre>
+</div>
+</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
