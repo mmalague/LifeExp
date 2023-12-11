@@ -185,8 +185,14 @@ scale_color_discrete(name = "State", labels = c("Maine", "Massachusetts", "New H
 
 discussion :
 I cannot accept my hypothesis--nor reject the null hypothesis--, as the difference in life expectancy for those with and without health insurance was not statistically significant. Although the coefficient can be interpreted to demonstrate a `-0.05`  year decrease in life expectancy with every one percent increase in population without health insurance coverage, a true association cannot be made because the results do not lie within a 95% confidence interval.
+
+
 The r-squared value is 0.004, which is extraordinarily low, yet another indicator that health care coverage is a poor predictor of life expectancy. 
+
+
 This analysis was most limited by its size and scope, and the health insurance coverage collection style. The portion of the population with no health insurance at all was the only one measured as a percentage. The other coverage types were measured in true numbers. 
+
+
 To improve this study/analysis, I would look at more counties across a more diverse area. I would also like to incorporate different types of health insurance(medicare vs medicaid, employer, etc) to conduct a multi-variable regression. 
 
 
