@@ -95,6 +95,7 @@ Data Sources:
 
 To conduct this investigation, I mergeed two datasets. The first, Health Insurance Coverage Counties(2015-2019), is sourced from the American Community Survey, via the Census Bureau. It includes a breakdown of each US county population's health insurance coverage--be it medicare, medicaid, employer, other, or none. 
 The second dataset was the US Life Expectancy at Birth by State and Census Tract(2010-2015). This information is gathered by the Center for Disease Control and Census data.
+
 The first set deliniating the extent of health insurance is the explanatory variable of interest. The latter is the outcome variable.
 This is a cross-sectional research design.
 
@@ -198,8 +199,59 @@ To improve this study/analysis, I would look at more counties across a more dive
 
 
 sources:
+
+
 U.S. Census Bureau. "Health Insurance Coverage - Counties 2015-2019." https://covid19.census.gov/datasets/USCensus::health-insurance-coverage-counties-2015-2019/about 
 U.S. Department of Health and Human Services- Centers for Disease Control and Prevention. "U.S. Life Expectancy at Birth by State and Census Tract - 2010-2015." https://catalog.data.gov/dataset/u-s-life-expectancy-at-birth-by-state-and-census-tract-2010-2015 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
